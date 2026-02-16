@@ -8,31 +8,27 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <style>
-        html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #fdfdfd; }
+        html, body { height: 100%; margin: 0; font-family: -apple-system, sans-serif; background: #fdfdfd; }
         #top { padding: 12px 20px; background: #fff; border-bottom: 1px solid #eaeaea; display: flex; justify-content: space-between; align-items: center; }
         #map { height: calc(100% - 60px); width: 100%; background: #ebedee; }
-        .popup-img { width: 280px; border-radius: 4px; margin-top: 10px; display: block; filter: contrast(1.05); }
+        .popup-img { width: 280px; border-radius: 4px; margin-top: 10px; display: block; }
         .pill { background: #f0f0f0; border: 1px solid #ddd; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; color: #666; }
         .popup-content { padding: 5px; text-align: center; }
-        .leaflet-popup-content-wrapper { border-radius: 8px; padding: 5px; }
     </style>
 </head>
 <body>
 
 <div id="top">
-    <div>
-        <h2 style="margin:0; font-size: 16px; letter-spacing: -0.02em; color: #333;">1335 WEBSTER / SITE SURVEY</h2>
-    </div>
+    <div><h2 style="margin:0; font-size: 16px; color: #333;">1335 WEBSTER / SITE SURVEY</h2></div>
     <div style="display: flex; align-items: center; gap: 15px;">
         <span class="pill" id="statusPill">Initializing...</span>
-        <a href="index.html" style="text-decoration:none; font-size: 13px; color: #007aff; font-weight: 500;">Exit Map</a>
+        <a href="index.html" style="text-decoration:none; font-size: 13px; color: #007aff;">Exit</a>
     </div>
 </div>
 
 <div id="map"></div>
 
 <script>
-    // List of photos to scan
     const PHOTO_FILES = [
         "photos/IMG_0470.jpeg", "photos/IMG_0471.jpeg", "photos/IMG_0472.jpeg",
         "photos/IMG_0473.jpeg", "photos/IMG_0474.jpeg", "photos/IMG_0475.jpeg",
@@ -40,33 +36,30 @@
         "photos/IMG_0479.jpeg", "photos/IMG_0480.jpeg"
     ];
 
-    // 1. Initialize Map centered on the project site
-    const map = L.map("map", { zoomControl: true }).setView([37.7828, -122.4314], 19);
+    // Initialize Map at Zoom 17
+    const map = L.map("map").setView([37.7828, -122.4314], 17);
 
-    // 2. Minimal Gray & White Tiles (CartoDB Positron)
+    // Minimal Gray & White Tiles
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        attribution: '&copy; CARTO',
         subdomains: 'abcd',
         maxZoom: 20
     }).addTo(map);
 
     const statusPill = document.getElementById("statusPill");
+    const markerGroup = L.featureGroup().addTo(map);
 
     function buildPopup(url) {
-        const fileName = url.split('/').pop();
-        return `
-            <div class="popup-content">
-                <strong style="font-size:14px; color:#333;">${fileName}</strong><br>
+        return `<div class="popup-content">
+                <strong>${url.split('/').pop()}</strong><br>
                 <img src="${url}" class="popup-img" />
-                <div style="margin-top:10px;">
-                    <a href="${url}" target="_blank" style="color:#007aff; text-decoration:none; font-size:12px;">View High Res →</a>
-                </div>
+                <div style="margin-top:10px;"><a href="${url}" target="_blank" style="color:#007aff; text-decoration:none; font-size:12px;">View Full Res →</a></div>
             </div>`;
     }
 
     async function loadPins() {
+        let processedCount = 0;
         let foundCount = 0;
-        statusPill.textContent = "Processing Metadata...";
 
         PHOTO_FILES.forEach(url => {
             const img = new Image();
@@ -79,25 +72,26 @@
                     const lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
 
                     if (lat && lon) {
-                        // Convert EXIF Rational format to Decimal
                         const latDeg = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef === "S" ? -1 : 1);
                         const lonDeg = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef === "W" ? -1 : 1);
 
-                        // Drop the pin
-                        L.marker([latDeg, lonDeg]).addTo(map)
-                            .bindPopup(buildPopup(url));
-                        
+                        L.marker([latDeg, lonDeg]).addTo(markerGroup).bindPopup(buildPopup(url));
                         foundCount++;
-                        statusPill.textContent = `${foundCount} Photos Located`;
+                    }
+                    
+                    processedCount++;
+                    statusPill.textContent = `${foundCount} Photos Located`;
+                    
+                    // Auto-zoom to fit all pins once finished
+                    if (processedCount === PHOTO_FILES.length && foundCount > 0) {
+                        map.fitBounds(markerGroup.getBounds().pad(0.2));
                     }
                 });
             };
         });
     }
 
-    // Run on load
     loadPins();
 </script>
-
 </body>
 </html>
