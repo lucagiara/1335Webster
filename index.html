@@ -210,15 +210,14 @@
       setTimeout(() => emailEl.focus(), 50);
     }
 
-    function closeSurvey(){
-      overlay.style.display = "none";
-      markSeen();
-    }
+function closeSurvey(){
+  overlay.style.display = "none";
+  // markSeen(); // disabled for testing
+}
 
-    // Auto-open on first visit
-    window.addEventListener("load", () => {
-      if (!hasSeen()) openSurvey();
-    });
+window.addEventListener("load", () => {
+  openSurvey();
+});
 
     openSurveyBtn.addEventListener("click", openSurvey);
     closeModalBtn.addEventListener("click", closeSurvey);
