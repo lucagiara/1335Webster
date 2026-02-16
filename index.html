@@ -3,143 +3,145 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-   <meta name="robots" content="noindex, nofollow, noarchive">
-  <title>Project Site</title>
-  <meta name="description" content="Project info + optional community feedback survey." />
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>1335 Webster</title>
+  <meta name="description" content="Project info + community feedback survey + project updates." />
   <style>
-    :root{   --bg:#0F1412;    /* green glass */   --card: rgba(125,132,110,.34);    /* readable text */   --text:#FAFBF7;   --muted:rgba(255,255,255,.78);    /* brand green */   --accent:#5E7E54;   --accent-soft:#88A970;   --accent-strong:#3E5C3C;    --border:rgba(255,255,255,.22);   --warm:#F0EFE8;   --alert:#C6453A; }
+    :root{
+      --card: rgba(125,132,110,.34);
+      --text:#FAFBF7;
+      --muted:rgba(255,255,255,.78);
+      --accent:#5E7E54;
+      --accent-soft:#88A970;
+      --accent-strong:#3E5C3C;
+      --border:rgba(255,255,255,.22);
+      --warm:#F0EFE8;
+    }
+
     *{ box-sizing:border-box; }
+
     body{
-  margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  color:var(--text);
-  background: url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
-}
-    a{ color:var(--accent); text-decoration:none; }
-    a:hover{ text-decoration:underline; }
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background: url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
+    }
+
+    a{ color:inherit; text-decoration:none; }
 
     .wrap{ max-width: 980px; margin: 0 auto; padding: 48px 20px; }
-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:16px;
-  margin-bottom:72px;
 
-  border: 1px solid var(--border);
-  background: var(--card);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 12px 40px rgba(0,0,0,.18);
-}
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      margin-bottom:72px;
 
-.brand{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
+      border: 1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.18);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.18);
+    }
 
-    .brand h1{   font-size: clamp(44px, 6vw, 92px);   font-weight: 600;   letter-spacing: .02em;   margin:0;   color: var(--warm);   text-shadow: 0 4px 24px rgba(0,0,0,.25); }
-    .brand p{   margin-top:6px;   font-size:14px;   letter-spacing:.06em;   text-transform:uppercase;   color: rgba(255,255,255,.78); }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .brand h1{
+      font-size: clamp(44px, 6vw, 92px);
+      font-weight: 600;
+      letter-spacing: .02em;
+      margin:0;
+      color: var(--warm);
+      text-shadow: 0 4px 24px rgba(0,0,0,.25);
+    }
+
+    .brand p{
+      margin-top:6px;
+      font-size:14px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color: rgba(255,255,255,.78);
+    }
 
     .hero{
-  border:1px solid var(--border);
-  background: var(--card);
-  backdrop-filter: blur(18px) saturate(140%);
-  border-radius:22px;
-  padding:30px;
-  box-shadow:0 12px 40px rgba(0,0,0,.18);
-}
+      border:1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.16);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border-radius:22px;
+      padding:30px;
+      box-shadow:0 12px 40px rgba(0,0,0,.18);
+    }
 
     .hero h2{ margin:0 0 10px; font-size: 30px; letter-spacing:.2px; }
     .hero p{ margin:0 0 18px; color:var(--muted); line-height:1.5; }
 
-    .grid{ display:grid; grid-template-columns: 1.2fr .8fr; gap:16px; margin-top: 18px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      margin-top: 18px;
+      align-items: stretch;
+    }
     @media (max-width: 860px){ .grid{ grid-template-columns: 1fr; } }
 
     .card{
-  border:1px solid var(--border);
-  background: var(--card);
-  backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%);
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 20px 60px rgba(0,0,0,.18);
-}
-
+      border:1px solid var(--border);
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 20px 60px rgba(0,0,0,.18);
+    }
 
     .card h3{ margin:0 0 10px; font-size:16px; }
     .card p, .card li{ color:var(--muted); line-height:1.5; font-size:14px; }
     .card ul{ margin:10px 0 0 18px; padding:0; }
 
-    .btnrow{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px; }
-    button{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      padding: 10px 14px;
+    /* Survey card (big + clickable) */
+    .surveyCard{ display:block; height:100%; }
+    .surveyInner{ height:100%; border-color: rgba(255,255,255,.28); }
+    .surveyInner:hover{ filter: brightness(1.03); transform: translateY(-1px); transition: 160ms ease; }
+
+    .surveyKicker{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color: rgba(255,255,255,.86);
+    }
+    .surveyBig{
+      margin:10px 0 6px;
+      font-size:22px;
+      font-weight:650;
+      color: var(--warm);
+      line-height:1.15;
+    }
+    .surveySub{
+      margin:0 0 14px;
+      color: rgba(255,255,255,.78);
+      font-size:14px;
+    }
+    .surveyCta{
+      display:inline-block;
+      padding:10px 12px;
       border-radius: 12px;
-      cursor: pointer;
-      font-size: 14px;
+      background: var(--accent);
+      color: white;
+      border: 1px solid var(--accent-strong);
+      font-size:14px;
+      font-weight:600;
     }
-    button.primary{   background: var(--accent);   border-color: var(--accent-strong);   color:white; }  button.primary:hover{   background: var(--accent-soft); }  button{   border:1px solid var(--border);   background: rgba(255,255,255,.06);   color: var(--text); }
-    button:hover{ filter:brightness(1.06); }
+    .surveyInner:hover .surveyCta{ background: var(--accent-soft); }
 
-    /* Modal */
-    .modalOverlay{
-      position:fixed; inset:0;
-      display:none;
-      align-items:center; justify-content:center;
-      background: rgba(0,0,0,.62);
-      padding: 18px;
-      z-index: 50;
-    }
-    .modal{
-  width: min(720px, 100%);
-  border:1px solid var(--border);
-  background: rgba(20,26,22,.92);
-  backdrop-filter: blur(16px);
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.45);
-}
-
-    .modalTop{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
-    .modalTop h2{ margin:0; font-size: 18px; }
-    .modalTop p{ margin:6px 0 0; color:var(--muted); font-size: 13px; line-height: 1.4; }
-    .x{ border:1px solid var(--border); background:transparent; border-radius: 12px; padding: 8px 10px; }
-
-    form{ margin-top: 14px; display:grid; gap: 12px; }
-    .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 560px){ .row{ grid-template-columns: 1fr; } }
-    label{ display:grid; gap: 6px; font-size: 13px; color: var(--text); }
-    input, textarea, select{
-      width:100%;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 14px;
-      outline: none;
-    }
-    textarea{ min-height: 88px; resize: vertical; }
-    .hint{ color: var(--muted); font-size: 12px; margin-top: 2px; }
-    .error{ color: #fca5a5; font-size: 12px; display:none; }
-
-    .modalActions{ display:flex; justify-content:space-between; flex-wrap:wrap; gap: 10px; margin-top: 8px; align-items:center; }
-    .leftActions{ display:flex; gap: 10px; flex-wrap:wrap; }
-    .toast{
-      margin-top: 10px;
-      border:1px solid var(--border);
-      background: rgba(34,197,94,.12);
-      border-radius: 12px;
-      padding: 10px 12px;
-      color: #bbf7d0;
-      font-size: 13px;
-      display:none;
-    }
     footer{ margin-top: 40px; color: var(--muted); font-size: 12px; }
   </style>
 </head>
@@ -151,10 +153,6 @@ header{
         <h1>1335 Webster</h1>
         <p>Community engagement + project updates</p>
       </div>
-      <div class="btnrow">
-        <button class="primary" id="openSurveyBtn">Share feedback</button>
-        <button id="viewUpdatesBtn" onclick="document.getElementById('updates').scrollIntoView({behavior:'smooth'})">View updates</button>
-      </div>
     </header>
 
     <section class="hero">
@@ -163,6 +161,7 @@ header{
         This page shares what we’re exploring and how you can participate. If you’d like,
         you can leave feedback and optionally sign up for updates.
       </p>
+
       <div class="grid">
         <div class="card">
           <h3>What we’re doing</h3>
@@ -173,93 +172,27 @@ header{
             <li>Goal C (ex: safer streets)</li>
           </ul>
         </div>
-        <div class="card">
-          <h3>Get involved</h3>
-          <p>Leave quick feedback (1–2 minutes). Email is only required if you submit.</p>
-          <div class="btnrow">
-            <button class="primary" onclick="openSurvey()">Open feedback form</button>
-            <button onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">FAQ</button>
+
+        <a class="surveyCard" href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" rel="noopener noreferrer">
+          <div class="card surveyInner">
+            <h3 class="surveyKicker">Take the survey</h3>
+            <p class="surveyBig">Share quick feedback (1–2 minutes)</p>
+            <p class="surveySub">Opens a short Google Form in a new tab.</p>
+            <div class="surveyCta">Open survey →</div>
           </div>
-        </div>
+        </a>
       </div>
     </section>
 
     <section id="updates" class="card" style="margin-top:16px;">
-      <h3>Latest updates</h3>
+      <h3>Project updates</h3>
       <p><strong>Feb 2026:</strong> Kickoff + early listening sessions.</p>
       <p><strong>Mar 2026:</strong> Initial concepts shared for feedback.</p>
-      <p class="hint">Later we can make this a real “Updates” feed.</p>
-    </section>
-
-    <section id="faq" class="card" style="margin-top:16px;">
-      <h3>FAQ</h3>
-      <p><strong>Do I have to enter my email?</strong> No — only if you submit feedback.</p>
-      <p><strong>What happens to my feedback?</strong> We review themes and incorporate them into design direction and updates.</p>
     </section>
 
     <footer>
       <div>Privacy note: keep this short and clear (we’ll write it together).</div>
     </footer>
   </div>
-
-  <!-- Modal -->
-  <div class="modalOverlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-      <div class="modalTop">
-        <div>
-          <h2 id="modalTitle">Share feedback (optional)</h2>
-          <p>Skip anytime. If you submit, we’ll ask for your email so we can follow up and share updates.</p>
-        </div>
-        <button class="x" id="closeModalBtn" aria-label="Close">✕</button>
-      </div>
-
-<div style="margin-top:14px;">
-  <div class="hint" style="margin-bottom:10px;">
-    You can close this anytime to continue without submitting.
-  </div>
-
-  <div style="width:100%; height:72vh; border:1px solid var(--border); border-radius:14px; overflow:hidden;">
-    <iframe
-      src="https://docs.google.com/forms/d/e/1FAIpQLSfDbYJcqU38dDbhdbdarW65MRdou9RYXO8w2WjMOJ9JblwBcQ/viewform?embedded=true"
-      style="width:100%; height:100%; border:0;"
-      loading="lazy"
-      referrerpolicy="no-referrer"
-    >Loading…</iframe>
-  </div>
-</div>
-    </div>
-  </div>
-
-
-
-<script>
-  const overlay = document.getElementById("modalOverlay");
-  const openSurveyBtn = document.getElementById("openSurveyBtn");
-  const closeModalBtn = document.getElementById("closeModalBtn");
-
-  function openSurvey(){
-    overlay.style.display = "flex";
-  }
-
-  function closeSurvey(){
-    overlay.style.display = "none";
-  }
-
-  // Always open on refresh (testing)
-  window.addEventListener("load", () => {
-    openSurvey();
-  });
-
-  openSurveyBtn?.addEventListener("click", openSurvey);
-  closeModalBtn?.addEventListener("click", closeSurvey);
-
-  // Close if click outside modal
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) closeSurvey();
-  });
-
-  // ESC closes
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && overlay.style.display === "flex") closeSurvey();
-  });
-</script>
+</body>
+</html>
