@@ -19,13 +19,7 @@
     url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
 }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background: rgba(10,14,20,0.65); /* darkness amount */
-  z-index:-1;
-}
+
 
     a{ color:var(--accent); text-decoration:none; }
     a:hover{ text-decoration:underline; }
@@ -36,7 +30,7 @@ body::before{
     .brand h1{ font-size: 20px; margin:0; letter-spacing: .2px; }
     .brand p{ margin:0; color:var(--muted); font-size: 14px; }
 
-    .hero{ border:1px solid var(--border); background:linear-gradient(180deg, rgba(17,24,39,.9), rgba(17,24,39,.6)); border-radius:16px; padding:28px; }
+    .hero{   border:1px solid var(--border);   background: rgba(20,26,22,.55);   backdrop-filter: blur(18px);   border-radius:22px;   padding:30px;   box-shadow:0 12px 40px rgba(0,0,0,.35); }
     .hero h2{ margin:0 0 10px; font-size: 30px; letter-spacing:.2px; }
     .hero p{ margin:0 0 18px; color:var(--muted); line-height:1.5; }
 
@@ -80,13 +74,15 @@ body::before{
       z-index: 50;
     }
     .modal{
-      width: min(720px, 100%);
-      border:1px solid var(--border);
-      background: rgba(17,24,39,.96);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
-    }
+  width: min(720px, 100%);
+  border:1px solid var(--border);
+  background: rgba(20,26,22,.92);
+  backdrop-filter: blur(16px);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+
     .modalTop{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
     .modalTop h2{ margin:0; font-size: 18px; }
     .modalTop p{ margin:6px 0 0; color:var(--muted); font-size: 13px; line-height: 1.4; }
