@@ -9,7 +9,24 @@
   <style>
     :root { --bg:#0b0f14; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#60a5fa; --border:#1f2937; }
     *{ box-sizing:border-box; }
-    body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--text); }
+    body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color:var(--text);
+
+  background-image: url("1335_Webster-view2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: rgba(10,14,20,0.65); /* darkness amount */
+  z-index:-1;
+}
+
     a{ color:var(--accent); text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
@@ -26,7 +43,14 @@
     .grid{ display:grid; grid-template-columns: 1.2fr .8fr; gap:16px; margin-top: 18px; }
     @media (max-width: 860px){ .grid{ grid-template-columns: 1fr; } }
 
-    .card{ border:1px solid var(--border); background:rgba(17,24,39,.75); border-radius:16px; padding:18px; }
+    .card{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(15,18,24,.78);
+  backdrop-filter: blur(6px);
+  border-radius:18px;
+  padding:18px;
+}
+
     .card h3{ margin:0 0 10px; font-size:16px; }
     .card p, .card li{ color:var(--muted); line-height:1.5; font-size:14px; }
     .card ul{ margin:10px 0 0 18px; padding:0; }
