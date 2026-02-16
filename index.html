@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Project Site</title>
+  <meta name="description" content="Project info + optional community feedback survey." />
+  <style>
+    :root { --bg:#0b0f14; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#60a5fa; --border:#1f2937; }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--text); }
+    a{ color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{ max-width: 980px; margin: 0 auto; padding: 48px 20px; }
+    header{ display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom: 36px; }
+    .brand{ display:flex; flex-direction:column; gap:4px; }
+    .brand h1{ font-size: 20px; margin:0; letter-spacing: .2px; }
+    .brand p{ margin:0; color:var(--muted); font-size: 14px; }
+
+    .hero{ border:1px solid var(--border); background:linear-gradient(180deg, rgba(17,24,39,.9), rgba(17,24,39,.6)); border-radius:16px; padding:28px; }
+    .hero h2{ margin:0 0 10px; font-size: 30px; letter-spacing:.2px; }
+    .hero p{ margin:0 0 18px; color:var(--muted); line-height:1.5; }
+
+    .grid{ display:grid; grid-template-columns: 1.2fr .8fr; gap:16px; margin-top: 18px; }
+    @media (max-width: 860px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{ border:1px solid var(--border); background:rgba(17,24,39,.75); border-radius:16px; padding:18px; }
+    .card h3{ margin:0 0 10px; font-size:16px; }
+    .card p, .card li{ color:var(--muted); line-height:1.5; font-size:14px; }
+    .card ul{ margin:10px 0 0 18px; padding:0; }
+
+    .btnrow{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px; }
+    button{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button.primary{ background: rgba(96,165,250,.18); border-color: rgba(96,165,250,.35); }
+    button:hover{ filter:brightness(1.06); }
+
+    /* Modal */
+    .modalOverlay{
+      position:fixed; inset:0;
+      display:none;
+      align-items:center; justify-content:center;
+      background: rgba(0,0,0,.62);
+      padding: 18px;
+      z-index: 50;
+    }
+    .modal{
+      width: min(720px, 100%);
+      border:1px solid var(--border);
+      background: rgba(17,24,39,.96);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+    .modalTop{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+    .modalTop h2{ margin:0; font-size: 18px; }
+    .modalTop p{ margin:6px 0 0; color:var(--muted); font-size: 13px; line-height: 1.4; }
+    .x{ border:1px solid var(--border); background:transparent; border-radius: 12px; padding: 8px 10px; }
+
+    form{ margin-top: 14px; display:grid; gap: 12px; }
+    .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 560px){ .row{ grid-template-columns: 1fr; } }
+    label{ display:grid; gap: 6px; font-size: 13px; color: var(--text); }
+    input, textarea, select{
+      width:100%;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14px;
+      outline: none;
+    }
+    textarea{ min-height: 88px; resize: vertical; }
+    .hint{ color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .error{ color: #fca5a5; font-size: 12px; display:none; }
+
+    .modalActions{ display:flex; justify-content:space-between; flex-wrap:wrap; gap: 10px; margin-top: 8px; align-items:center; }
+    .leftActions{ display:flex; gap: 10px; flex-wrap:wrap; }
+    .toast{
+      margin-top: 10px;
+      border:1px solid var(--border);
+      background: rgba(34,197,94,.12);
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: #bbf7d0;
+      font-size: 13px;
+      display:none;
+    }
+    footer{ margin-top: 40px; color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1>Project Name</h1>
+        <p>Community engagement + project updates</p>
+      </div>
+      <div class="btnrow">
+        <button class="primary" id="openSurveyBtn">Share feedback</button>
+        <button id="viewUpdatesBtn" onclick="document.getElementById('updates').scrollIntoView({behavior:'smooth'})">View updates</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h2>Help shape the project</h2>
+      <p>
+        This page shares what we’re exploring and how you can participate. If you’d like,
+        you can leave feedback and optionally sign up for updates.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>What we’re doing</h3>
+          <p>Replace this with a simple paragraph: goals, constraints, and what decisions are still open.</p>
+          <ul>
+            <li>Goal A (ex: more housing options)</li>
+            <li>Goal B (ex: local business vitality)</li>
+            <li>Goal C (ex: safer streets)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Get involved</h3>
+          <p>Leave quick feedback (1–2 minutes). Email is only required if you submit.</p>
+          <div class="btnrow">
+            <button class="primary" onclick="openSurvey()">Open feedback form</button>
+            <button onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">FAQ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="updates" class="card" style="margin-top:16px;">
+      <h3>Latest updates</h3>
+      <p><strong>Feb 2026:</strong> Kickoff + early listening sessions.</p>
+      <p><strong>Mar 2026:</strong> Initial concepts shared for feedback.</p>
+      <p class="hint">Later we can make this a real “Updates” feed.</p>
+    </section>
+
+    <section id="faq" class="card" style="margin-top:16px;">
+      <h3>FAQ</h3>
+      <p><strong>Do I have to enter my email?</strong> No — only if you submit feedback.</p>
+      <p><strong>What happens to my feedback?</strong> We review themes and incorporate them into design direction and updates.</p>
+    </section>
+
+    <footer>
+      <div>Privacy note: keep this short and clear (we’ll write it together).</div>
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div class="modalOverlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modalTop">
+        <div>
+          <h2 id="modalTitle">Share feedback (optional)</h2>
+          <p>Skip anytime. If you submit, we’ll ask for your email so we can follow up and share updates.</p>
+        </div>
+        <button class="x" id="closeModalBtn" aria-label="Close">✕</button>
+      </div>
+
+      <form id="surveyForm">
+        <label>
+          Email (required to submit)
+          <input id="email" type="email" placeholder="name@email.com" inputmode="email" autocomplete="email" />
+          <div class="hint">You can leave this blank if you just want to browse.</div>
+          <div class="error" id="emailError">Please enter a valid email to submit.</div>
+        </label>
+
+        <div class="row">
+          <label>
+            First name (optional)
+            <input id="firstName" type="text" placeholder="First name" autocomplete="given-name" />
+          </label>
+          <label>
+            Last name (optional)
+            <input id="lastName" type="text" placeholder="Last name" autocomplete="family-name" />
+          </label>
+        </div>
+
+        <label>
+          Which topic matters most to you right now? (optional)
+          <select id="topic">
+            <option value="">Select one</option>
+            <option>Housing</option>
+            <option>Local businesses</option>
+            <option>Safety & mobility</option>
+            <option>Parks & public space</option>
+            <option>Other</option>
+          </select>
+        </label>
+
+        <label>
+          A word or two about what you’d like to see (optional)
+          <input id="wish" type="text" placeholder="Example: family housing, safer crossings, more trees" />
+        </label>
+
+        <label>
+          Anything else you want to share? (optional)
+          <textarea id="notes" placeholder="Write here…"></textarea>
+        </label>
+
+        <div class="modalActions">
+          <div class="leftActions">
+            <button type="button" id="skipBtn">Skip for now</button>
+          </div>
+          <button class="primary" type="submit">Submit feedback</button>
+        </div>
+
+        <div class="toast" id="toast">Thanks — your feedback was saved (test mode).</div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const MODAL_SEEN_KEY = "projectSite_modalSeen_v1";
+    const overlay = document.getElementById("modalOverlay");
+    const openSurveyBtn = document.getElementById("openSurveyBtn");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const skipBtn = document.getElementById("skipBtn");
+    const form = document.getElementById("surveyForm");
+
+    const emailEl = document.getElementById("email");
+    const emailError = document.getElementById("emailError");
+    const toast = document.getElementById("toast");
+
+    function isValidEmail(value){
+      // pragmatic email check (good enough for front-end validation)
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
+    }
+
+    function markSeen(){
+      try { localStorage.setItem(MODAL_SEEN_KEY, String(Date.now())); } catch {}
+    }
+
+    function hasSeen(){
+      try { return Boolean(localStorage.getItem(MODAL_SEEN_KEY)); } catch { return false; }
+    }
+
+    function openSurvey(){
+      overlay.style.display = "flex";
+      toast.style.display = "none";
+      emailError.style.display = "none";
+      // focus email for accessibility
+      setTimeout(() => emailEl.focus(), 50);
+    }
+
+    function closeSurvey(){
+      overlay.style.display = "none";
+      markSeen();
+    }
+
+    // Auto-open on first visit
+    window.addEventListener("load", () => {
+      if (!hasSeen()) openSurvey();
+    });
+
+    openSurveyBtn.addEventListener("click", openSurvey);
+    closeModalBtn.addEventListener("click", closeSurvey);
+    skipBtn.addEventListener("click", closeSurvey);
+
+    // Close if click outside modal
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeSurvey();
+    });
+
+    // ESC closes
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && overlay.style.display === "flex") closeSurvey();
+    });
+
+    // Submit logic: email required only on submit
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = emailEl.value.trim();
+      if (!isValidEmail(email)) {
+        emailError.style.display = "block";
+        emailEl.focus();
+        return;
+      }
+      emailError.style.display = "none";
+
+      const payload = {
+        email,
+        firstName: document.getElementById("firstName").value.trim(),
+        lastName: document.getElementById("lastName").value.trim(),
+        topic: document.getElementById("topic").value,
+        wish: document.getElementById("wish").value.trim(),
+        notes: document.getElementById("notes").value.trim(),
+        submittedAt: new Date().toISOString(),
+      };
+
+      // TEST MODE: store locally so you can verify the flow end-to-end
+      try {
+        const key = "projectSite_submissions_v1";
+        const existing = JSON.parse(localStorage.getItem(key) || "[]");
+        existing.push(payload);
+        localStorage.setItem(key, JSON.stringify(existing));
+      } catch {}
+
+      toast.style.display = "block";
+      markSeen();
+
+      // Optional: close after a moment
+      setTimeout(() => closeSurvey(), 900);
+    });
+  </script>
+</body>
+</html>
