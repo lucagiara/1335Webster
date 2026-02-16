@@ -1,194 +1,161 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="robots" content="noindex, nofollow, noarchive">
-  <title>1335 Webster</title>
-  <meta name="description" content="Project info + community feedback survey + project updates." />
-  <style>
-    :root{
-      --card: rgba(125,132,110,.34);
-      --text:#FAFBF7;
-      --muted:rgba(255,255,255,.78);
-      --accent:#5E7E54;
-      --accent-soft:#88A970;
-      --accent-strong:#3E5C3C;
-      --border:rgba(255,255,255,.22);
-      --warm:#F0EFE8;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>1335 Webster</title>
 
-    *{ box-sizing:border-box; }
+<style>
+:root{
+  --card: rgba(125,132,110,.34);
+  --text:#FAFBF7;
+  --muted:rgba(255,255,255,.78);
+  --accent:#5E7E54;
+  --accent-soft:#88A970;
+  --accent-strong:#3E5C3C;
+  --border:rgba(255,255,255,.22);
+  --warm:#F0EFE8;
+}
 
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color:var(--text);
-      background: url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
-    }
+*{ box-sizing:border-box; }
 
-    a{ color:inherit; text-decoration:none; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color:var(--text);
+  background:url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
+}
 
-    .wrap{ max-width: 980px; margin: 0 auto; padding: 48px 20px; }
+.wrap{ max-width:980px; margin:0 auto; padding:48px 20px; }
+.stack{ max-width:920px; margin:0 auto; display:grid; gap:16px; }
 
-    /* Make ALL three boxes share the same width and spacing */
-    .stack{
-      max-width: 920px;
-      margin: 0 auto;
-      display: grid;
-      gap: 16px;          /* consistent spacing between all boxes */
-    }
+/* Shared glass style */
+.glass{
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);
+}
 
-    /* Shared “glass” box style */
-    .glass{
-      border: 1px solid rgba(255,255,255,.35);
-      background: rgba(255,255,255,.18);
-      backdrop-filter: blur(14px) saturate(140%);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 12px 40px rgba(0,0,0,.18);
-    }
+/* Header */
+header{ display:flex; justify-content:flex-start; }
+.brand h1{
+  font-size: clamp(44px, 6vw, 92px);
+  margin:0;
+  color:var(--warm);
+  text-shadow:0 4px 24px rgba(0,0,0,.25);
+}
 
-    /* TOP title box */
-    header{
-      display:flex;
-      justify-content:flex-start; /* left */
-      align-items:flex-start;
-    }
+/* Clickable cards */
+.linkCard{ display:block; color:inherit; text-decoration:none; }
+.linkCard .glass{ transition: background .25s ease, border .25s ease, transform .18s ease; }
 
-    .brand h1{
-      font-size: clamp(44px, 6vw, 92px);
-      font-weight: 600;
-      letter-spacing: .02em;
-      margin:0;
-      color: var(--warm);
-      text-shadow: 0 4px 24px rgba(0,0,0,.25);
-      text-align:left; /* explicit */
-    }
+/* Hover = stronger green glass */
+.linkCard:hover .glass{
+  background:rgba(94,126,84,.45);
+  border:1px solid rgba(255,255,255,.55);
+  transform: translateY(-1px);
+}
 
-    /* Card look for content boxes */
-    .card{
-      border:1px solid var(--border);
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius:16px;
-      padding:18px;
-      box-shadow:0 20px 60px rgba(0,0,0,.18);
-    }
+/* Section titles */
+.cardTitle{
+  margin:0 0 8px;
+  font-size:28px;
+  color:var(--warm);
+}
+.cardText{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+}
 
-    /* Box 2 (survey) */
-    .surveyBox h2{
-      margin:0 0 8px;
-      font-size: 30px;
-      letter-spacing:.2px;
-      color: var(--warm);
-    }
-    .surveyBox p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.5;
-      font-size:14px;
-    }
+.updates h2{ margin:0 0 14px; font-size:28px; color:var(--warm); }
+.eventTitle{
+  margin:0 0 12px;
+  font-size:18px;
+  font-weight:600;
+  color:rgba(255,255,255,.95);
+}
+.eventMeta{
+  padding-left:16px;
+  border-left:2px solid rgba(255,255,255,.22);
+  display:grid;
+  gap:8px;
+}
+.metaRow{
+  display:flex;
+  gap:10px;
+  font-size:14px;
+  color:var(--muted);
+}
+.metaLabel{
+  min-width:64px;
+  font-weight:600;
+  color:rgba(255,255,255,.85);
+}
 
-    /* Make the whole survey text area feel clickable */
-    .surveyLink{
-      display:block;
-    }
-    .surveyLink:hover{
-      filter: brightness(1.03);
-      transform: translateY(-1px);
-      transition: 160ms ease;
-    }
-
-    /* Box 3 (updates) */
-    .updates h3{
-      margin:0 0 12px;
-      font-size:16px;
-    }
-
-    .eventTitle{
-      margin:0 0 10px;
-      font-size:22px;
-      font-weight:650;
-      color: var(--warm);
-      line-height:1.15;
-    }
-
-    .eventMeta{
-      margin:0;
-      padding-left: 16px;         /* “indented” details */
-      border-left: 2px solid rgba(255,255,255,.22);
-      display:grid;
-      gap:8px;
-    }
-
-    .metaRow{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      color: var(--muted);
-      font-size:14px;
-      line-height:1.45;
-    }
-
-    .metaLabel{
-      min-width: 64px;            /* keeps labels aligned */
-      color: rgba(255,255,255,.86);
-      font-weight:600;
-    }
-
-    footer{ margin-top: 8px; color: var(--muted); font-size: 12px; }
-  </style>
+footer{ color:var(--muted); font-size:12px; }
+</style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="stack">
+<div class="wrap">
+  <div class="stack">
 
-      <!-- BOX 1: Title (same width + left aligned) -->
-      <header class="glass">
-        <div class="brand">
-          <h1>1335 Webster</h1>
-        </div>
-      </header>
+    <header class="glass">
+      <div class="brand">
+        <h1>1335 Webster</h1>
+      </div>
+    </header>
 
-      <!-- BOX 2: Take the survey (single box, clickable) -->
-      <a class="surveyLink" href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" rel="noopener noreferrer">
-        <section class="glass surveyBox">
-          <h2>Take the survey</h2>
-          <p>Please share feedback through a short survey. It takes 1–2 minutes and helps inform the project direction.</p>
-        </section>
-      </a>
-
-      <!-- BOX 3: Project Updates (hierarchy: event title, then indented details) -->
-      <section class="card updates">
-        <h3>Project Updates</h3>
-
-        <div class="eventTitle">Community Visioning Session #1</div>
-
-        <div class="eventMeta">
-          <div class="metaRow">
-            <div class="metaLabel">Date</div>
-            <div>February 19, 2026</div>
-          </div>
-          <div class="metaRow">
-            <div class="metaLabel">Time</div>
-            <div>5:00pm to 7:00pm</div>
-          </div>
-          <div class="metaRow">
-            <div class="metaLabel">Address</div>
-            <div>Third Baptist Church of San Francisco, 1399 McAllister St, San Francisco, CA 94115</div>
-          </div>
-        </div>
+    <!-- Take the survey (NOW uses your real link) -->
+    <a class="linkCard" href="https://docs.google.com/forms/d/e/1FAIpQLSfDbYJcqU38dDbhdbdarW65MRdou9RYXO8w2WjMOJ9JblwBcQ/viewform?usp=sharing&amp;ouid=116835632892877175174" target="_blank" rel="noopener noreferrer">
+      <section class="glass">
+        <h2 class="cardTitle">Take the survey</h2>
+        <p class="cardText">Please share feedback through a short survey. It takes 1–2 minutes and helps inform the project direction.</p>
       </section>
+    </a>
 
-      <footer>
-        <div>Privacy note: keep this short and clear (we’ll write it together).</div>
-      </footer>
+    <!-- Project updates -->
+    <section class="glass updates">
+      <h2>Project Updates</h2>
 
-    </div>
+      <div class="eventTitle">Community Visioning Session #1</div>
+
+      <div class="eventMeta">
+        <div class="metaRow">
+          <div class="metaLabel">Date</div>
+          <div>February 19, 2026</div>
+        </div>
+        <div class="metaRow">
+          <div class="metaLabel">Time</div>
+          <div>5:00pm to 7:00pm</div>
+        </div>
+        <div class="metaRow">
+          <div class="metaLabel">Address</div>
+          <div>Third Baptist Church of San Francisco, 1399 McAllister St, San Francisco CA 94115</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW: Site Photo Survey Map (links to a new file) -->
+    <a class="linkCard" href="site-survey-map.html">
+      <section class="glass">
+        <h2 class="cardTitle">Site Photo Survey</h2>
+        <p class="cardText">Explore photos of the site on an interactive map.</p>
+      </section>
+    </a>
+
+    <footer>
+      <div>Privacy note: keep this short and clear (we’ll write it together).</div>
+    </footer>
+
   </div>
+</div>
 </body>
 </html>
