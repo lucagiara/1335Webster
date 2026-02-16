@@ -217,7 +217,7 @@
           <button class="primary" type="submit">Submit feedback</button>
         </div>
 
-        <div class="toast" id="toast">Thanks — your feedback was saved (test mode).</div>
+<div class="toast" id="toast">Thanks — your feedback was submitted.</div>
       </form>
     </div>
   </div>
@@ -301,13 +301,25 @@
         submittedAt: new Date().toISOString(),
       };
 
-      // TEST MODE: store locally so you can verify the flow end-to-end
-      try {
-        const key = "projectSite_submissions_v1";
-        const existing = JSON.parse(localStorage.getItem(key) || "[]");
-        existing.push(payload);
-        localStorage.setItem(key, JSON.stringify(existing));
-      } catch {}
+// SEND TO GOOGLE FORM (silent submit)
+const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfDbYJcqU38dDbhdbdarW65MRdou9RYXO8w2WjMOJ9JblwBcQ/formResponse";
+
+const formData = new FormData();
+formData.append("entry.1911743767", payload.email);         // Email Address
+formData.append("entry.1739362744", payload.firstName);     // First name
+formData.append("entry.757392102", payload.lastName);       // Last name
+formData.append("entry.239320232", payload.topic);          // Topic
+
+// Map your “wish/notes” into the form’s free-text field:
+formData.append("entry.1163946689", payload.wish || payload.notes);
+
+// Newsletter opt-in (always YES for submit; we can make a checkbox later)
+formData.append("entry.1529563708", "YES");
+
+// OPTIONAL (you have this question in the Google Form but not on the modal yet)
+// formData.append("entry.188616829", payload.role);
+
+fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
 
       toast.style.display = "block";
       markSeen();
