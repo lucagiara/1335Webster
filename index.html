@@ -15,9 +15,9 @@
   color:var(--text);
 
   background:
-  linear-gradient(rgba(10,14,11,.22), rgba(10,14,11,.38)),
-  url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
+    url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
 }
+
 
 
 
@@ -25,10 +25,10 @@
     a:hover{ text-decoration:underline; }
 
     .wrap{ max-width: 980px; margin: 0 auto; padding: 48px 20px; }
-    header{ display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom: 36px; }
+    header{   display:flex;   justify-content:space-between;   align-items:flex-start;   gap:16px;   margin-bottom: 72px; }
     .brand{ display:flex; flex-direction:column; gap:4px; }
-    .brand h1{ font-size: 20px; margin:0; letter-spacing: .2px; }
-    .brand p{ margin:0; color:var(--muted); font-size: 14px; }
+    .brand h1{   font-size: clamp(36px, 4.8vw, 64px);   font-weight: 600;   letter-spacing: .02em;   margin:0;   color: var(--warm);   text-shadow: 0 4px 24px rgba(0,0,0,.25); }
+    .brand p{   margin-top:6px;   font-size:14px;   letter-spacing:.06em;   text-transform:uppercase;   color: rgba(255,255,255,.78); }
 
     .hero{   border:1px solid var(--border);   background: rgba(30,38,32,.42);   backdrop-filter: blur(18px);   border-radius:22px;   padding:30px;   box-shadow:0 12px 40px rgba(0,0,0,.35); }
     .hero h2{ margin:0 0 10px; font-size: 30px; letter-spacing:.2px; }
