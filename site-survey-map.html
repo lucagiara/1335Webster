@@ -112,93 +112,56 @@ h1{
   </div>
 
   <div id="map"></div>
-
+<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 <script>
   // Repo paths:
-  const PINS_JSON_URL = "pins.json"; // in same folder as this file
-  // Each pin.url in pins.json should point to "photos/filename.jpg"
+// 1. List your photo filenames here
+const PHOTO_FILES = [
+    "photos/IMG_0470.jpeg",
+    "photos/IMG_0471.jpeg",
+    "photos/IMG_0472.jpeg",
+    "photos/IMG_0473.jpeg",
+    "photos/IMG_0474.jpeg",
+    "photos/IMG_0475.jpeg",
+    "photos/IMG_0476.jpeg",
+    "photos/IMG_0477.jpeg",
+    "photos/IMG_0478.jpeg",
+    "photos/IMG_0479.jpeg",
+    "photos/IMG_0480.jpeg"
+];
 
-  const map = L.map("map", { zoomControl:true, maxZoom:22 }).setView([37.78287390856013, -122.43146437267494], 15);
+const map = L.map("map", { zoomControl:true, maxZoom:22 }).setView([37.7828, -122.4314], 17);
 
-  const baseLight = L.tileLayer(
-    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-    { attribution: '&copy; OpenStreetMap contributors &copy; CARTO', maxZoom:22, maxNativeZoom:19 }
-  ).addTo(map);
+// ... (Keep your existing TileLayer and UI code here) ...
 
-  const sat = L.tileLayer(
-    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    { attribution:"Tiles &copy; Esri", maxZoom:22, maxNativeZoom:19 }
-  );
-
-  L.control.layers({ "Map": baseLight, "Satellite": sat }, {}, { collapsed:true }).addTo(map);
-
-  const statusPill = document.getElementById("statusPill");
-  const reloadBtn = document.getElementById("reloadBtn");
-
-  function escapeHtml(s){
-    return String(s || "").replace(/[&<>"']/g, (c) => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-    }[c]));
-  }
-
-  function buildPopup(pin){
-    const title = escapeHtml(pin.title || pin.fileName || "Photo");
-    const url = pin.url ? String(pin.url) : "";
-    const safeUrl = escapeHtml(url);
-
-    const imgTag = url ? `<img class="popup-img" src="${safeUrl}" alt="${title}" />` : "";
-    const actions = url ? `
-      <div class="popup-actions">
-        <a href="${safeUrl}" target="_blank" rel="noopener">Open image</a>
-      </div>
-    ` : "";
-
-    return `
-      <div class="popup-title">${title}</div>
-      ${imgTag}
-      ${actions}
-    `;
-  }
-
-  let markers = [];
-
-  function clearMarkers(){
-    for (const m of markers) { try { map.removeLayer(m); } catch {} }
-    markers = [];
-  }
-
-  async function loadPins(){
-    statusPill.textContent = "Loading…";
+async function loadPinsFromExif() {
+    statusPill.textContent = "Scanning Photos...";
     clearMarkers();
 
-    try{
-      const res = await fetch(PINS_JSON_URL, { cache:"no-store" });
-      if (!res.ok) throw new Error("pins.json not found");
-      const pins = await res.json();
-      if (!Array.isArray(pins)) throw new Error("pins.json invalid");
+    for (const url of PHOTO_FILES) {
+        const img = new Image();
+        img.src = url;
+        img.onload = function() {
+            EXIF.getData(img, function() {
+                const lat = EXIF.getTag(this, "GPSLatitude");
+                const lon = EXIF.getTag(this, "GPSLongitude");
+                const latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
+                const lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
 
-      const usable = pins.filter(p => p && typeof p.lat === "number" && typeof p.lng === "number" && p.url);
+                if (lat && lon) {
+                    // Convert EXIF format to decimal degrees
+                    const latDeg = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef === "S" ? -1 : 1);
+                    const lonDeg = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef === "W" ? -1 : 1);
 
-      for (const p of usable){
-        const m = L.marker([p.lat, p.lng]).addTo(map).bindPopup(buildPopup(p));
-        markers.push(m);
-      }
-
-      statusPill.textContent = `${usable.length} pin(s)`;
-
-      if (usable.length){
-        const group = L.featureGroup(markers);
-        map.fitBounds(group.getBounds().pad(0.2));
-      }
-    }catch(e){
-      statusPill.textContent = "No pins yet";
-      console.warn(e);
+                    const m = L.marker([latDeg, lonDeg]).addTo(map)
+                        .bindPopup(buildPopup({ url: url, title: url.split('/').pop() }));
+                    markers.push(m);
+                    statusPill.textContent = `${markers.length} pins found`;
+                }
+            });
+        };
     }
-  }
+}
 
-  reloadBtn.addEventListener("click", loadPins);
-  loadPins();
-</script>
-</body>
-</html>
-
+reloadBtn.addEventListener("click", loadPinsFromExif);
+loadPinsFromExif();
