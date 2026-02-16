@@ -1,167 +1,111 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="robots" content="noindex, nofollow, noarchive">
-<title>1335 Webster — Site Photo Survey Map</title>
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<style>
-:root{
-  --glass: rgba(255,255,255,.18);
-  --border: rgba(255,255,255,.35);
-  --text: rgba(255,255,255,.92);
-  --muted: rgba(255,255,255,.75);
-  --warm: #F0EFE8;
-}
-
-html, body{ height:100%; margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
-body{
-  background:#0b0f0d;
-}
-
-#top{
-  position:sticky;
-  top:0;
-  z-index:10;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.14);
-  background: rgba(10,14,12,.35);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-}
-
-.topInner{
-  max-width:980px;
-  margin:0 auto;
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:14px;
-}
-
-h1{
-  margin:0;
-  font-size:18px;
-  color:var(--warm);
-  letter-spacing:.02em;
-}
-
-.hint{
-  margin:6px 0 0;
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.4;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.btn{
-  display:inline-block;
-  padding:9px 12px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.22);
-  background: rgba(255,255,255,.10);
-  color:var(--text);
-  text-decoration:none;
-  font-size:13px;
-  cursor:pointer;
-}
-.btn:hover{ filter:brightness(1.05); }
-
-.pill{
-  font-size:12px;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.18);
-  background: rgba(255,255,255,.08);
-  color:var(--text);
-}
-
-#map{ height: calc(100% - 78px); }
-
-.popup-title{ font-weight:700; margin-bottom:6px; }
-.popup-note{ font-size:12px; color:#2b2b2b; margin:6px 0; }
-.popup-img{ width:240px; max-width:100%; border-radius:10px; display:block; margin-top:8px; }
-.popup-actions{ margin-top:10px; display:flex; gap:12px; flex-wrap:wrap; }
-.popup-actions a{ font-size:13px; text-decoration:none; }
-</style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>1335 Webster — Site Photo Survey Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root { --glass: rgba(255,255,255,.18); --border: rgba(255,255,255,.35); --text: rgba(255,255,255,.92); --muted: rgba(255,255,255,.75); --warm: #F0EFE8; }
+        html, body { height: 100%; margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; }
+        body { background: #0b0f0d; color: var(--text); }
+        #top { position: sticky; top: 0; z-index: 1000; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,.14); background: rgba(10,14,12,.35); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+        .topInner { max-width: 980px; margin: 0 auto; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+        h1 { margin: 0; font-size: 18px; color: var(--warm); }
+        .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+        .actions { display: flex; gap: 10px; align-items: center; }
+        .btn { padding: 9px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.10); color: #fff; text-decoration: none; font-size: 13px; cursor: pointer; }
+        .pill { font-size: 12px; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.08); }
+        #map { height: calc(100% - 78px); width: 100%; }
+        .popup-img { width: 240px; border-radius: 8px; display: block; margin-top: 8px; }
+    </style>
 </head>
-
 <body>
-  <div id="top">
+
+<div id="top">
     <div class="topInner">
-      <div>
-        <h1>Site Photo Survey Map</h1>
-        <div class="hint">Click a pin to preview a site photo. (Map loads from <b>pins.json</b> and <b>/photos/</b>.)</div>
-      </div>
-      <div class="actions">
-        <a class="btn" href="index.html">← Back</a>
-        <button class="btn" id="reloadBtn">Reload</button>
-        <span class="pill" id="statusPill">Loading…</span>
-      </div>
+        <div>
+            <h1>Site Photo Survey Map</h1>
+            <div class="hint">Extracting GPS from photos in <b>/photos/</b></div>
+        </div>
+        <div class="actions">
+            <a class="btn" href="index.html">← Back</a>
+            <button class="btn" id="reloadBtn">Reload</button>
+            <span class="pill" id="statusPill">Initializing...</span>
+        </div>
     </div>
-  </div>
+</div>
 
-  <div id="map"></div>
+<div id="map"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+
 <script>
-  // Repo paths:
-// 1. List your photo filenames here
-const PHOTO_FILES = [
-    "photos/IMG_0470.jpeg",
-    "photos/IMG_0471.jpeg",
-    "photos/IMG_0472.jpeg",
-    "photos/IMG_0473.jpeg",
-    "photos/IMG_0474.jpeg",
-    "photos/IMG_0475.jpeg",
-    "photos/IMG_0476.jpeg",
-    "photos/IMG_0477.jpeg",
-    "photos/IMG_0478.jpeg",
-    "photos/IMG_0479.jpeg",
-    "photos/IMG_0480.jpeg"
-];
+    // 1. List of photos to scan
+    const PHOTO_FILES = [
+        "photos/IMG_0470.jpeg", "photos/IMG_0471.jpeg", "photos/IMG_0472.jpeg",
+        "photos/IMG_0473.jpeg", "photos/IMG_0474.jpeg", "photos/IMG_0475.jpeg",
+        "photos/IMG_0476.jpeg", "photos/IMG_0477.jpeg", "photos/IMG_0478.jpeg",
+        "photos/IMG_0479.jpeg", "photos/IMG_0480.jpeg"
+    ];
 
-const map = L.map("map", { zoomControl:true, maxZoom:22 }).setView([37.7828, -122.4314], 17);
+    // 2. Initialize Map
+    const map = L.map("map").setView([37.7828, -122.4314], 18);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
 
-// ... (Keep your existing TileLayer and UI code here) ...
+    let markers = [];
+    const statusPill = document.getElementById("statusPill");
 
-async function loadPinsFromExif() {
-    statusPill.textContent = "Scanning Photos...";
-    clearMarkers();
-
-    for (const url of PHOTO_FILES) {
-        const img = new Image();
-        img.src = url;
-        img.onload = function() {
-            EXIF.getData(img, function() {
-                const lat = EXIF.getTag(this, "GPSLatitude");
-                const lon = EXIF.getTag(this, "GPSLongitude");
-                const latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
-                const lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
-
-                if (lat && lon) {
-                    // Convert EXIF format to decimal degrees
-                    const latDeg = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef === "S" ? -1 : 1);
-                    const lonDeg = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef === "W" ? -1 : 1);
-
-                    const m = L.marker([latDeg, lonDeg]).addTo(map)
-                        .bindPopup(buildPopup({ url: url, title: url.split('/').pop() }));
-                    markers.push(m);
-                    statusPill.textContent = `${markers.length} pins found`;
-                }
-            });
-        };
+    function clearMarkers() {
+        markers.forEach(m => map.removeLayer(m));
+        markers = [];
     }
-}
 
-reloadBtn.addEventListener("click", loadPinsFromExif);
-loadPinsFromExif();
+    function buildPopup(data) {
+        return `
+            <div class="popup-title"><b>${data.title}</b></div>
+            <img class="popup-img" src="${data.url}" />
+            <div style="margin-top:8px"><a href="${data.url}" target="_blank">View Full Size</a></div>
+        `;
+    }
+
+    async function loadPinsFromExif() {
+        statusPill.textContent = "Scanning Photos...";
+        clearMarkers();
+
+        PHOTO_FILES.forEach(url => {
+            const img = new Image();
+            img.src = url;
+            img.onload = function() {
+                EXIF.getData(img, function() {
+                    const lat = EXIF.getTag(this, "GPSLatitude");
+                    const lon = EXIF.getTag(this, "GPSLongitude");
+                    const latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
+                    const lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
+
+                    if (lat && lon) {
+                        const latDeg = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef === "S" ? -1 : 1);
+                        const lonDeg = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef === "W" ? -1 : 1);
+
+                        const m = L.marker([latDeg, lonDeg]).addTo(map)
+                            .bindPopup(buildPopup({ url: url, title: url.split('/').pop() }));
+                        markers.push(m);
+                        statusPill.textContent = `${markers.length} pins found`;
+                    }
+                });
+            };
+            img.onerror = () => console.log("Could not load: " + url);
+        });
+    }
+
+    document.getElementById("reloadBtn").addEventListener("click", loadPinsFromExif);
+    
+    // Start scanning on load
+    loadPinsFromExif();
+</script>
+
+</body>
+</html>
