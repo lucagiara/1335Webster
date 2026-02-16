@@ -1,1 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>1335 Webster — Site Photo Survey Map</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+:root{
+  --glass: rgba(255,255,255,.18);
+  --border: rgba(255,255,255,.35);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.75);
+  --warm: #F0EFE8;
+}
+
+html, body{ height:100%; margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+body{
+  background:#0b0f0d;
+}
+
+#top{
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:14px 16px;
+  border-bottom:1px solid rgba(255,255,255,.14);
+  background: rgba(10,14,12,.35);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+.topInner{
+  max-width:980px;
+  margin:0 auto;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+
+h1{
+  margin:0;
+  font-size:18px;
+  color:var(--warm);
+  letter-spacing:.02em;
+}
+
+.hint{
+  margin:6px 0 0;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.4;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.btn{
+  display:inline-block;
+  padding:9px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.10);
+  color:var(--text);
+  text-decoration:none;
+  font-size:13px;
+  cursor:pointer;
+}
+.btn:hover{ filter:brightness(1.05); }
+
+.pill{
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+  color:var(--text);
+}
+
+#map{ height: calc(100% - 78px); }
+
+.popup-title{ font-weight:700; margin-bottom:6px; }
+.popup-note{ font-size:12px; color:#2b2b2b; margin:6px 0; }
+.popup-img{ width:240px; max-width:100%; border-radius:10px; display:block; margin-top:8px; }
+.popup-actions{ margin-top:10px; display:flex; gap:12px; flex-wrap:wrap; }
+.popup-actions a{ font-size:13px; text-decoration:none; }
+</style>
+</head>
+
+<body>
+  <div id="top">
+    <div class="topInner">
+      <div>
+        <h1>Site Photo Survey Map</h1>
+        <div class="hint">Click a pin to preview a site photo. (Map loads from <b>pins.json</b> and <b>/photos/</b>.)</div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="index.html">← Back</a>
+        <button class="btn" id="reloadBtn">Reload</button>
+        <span class="pill" id="statusPill">Loading…</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+<script>
+  // Repo paths:
+  const PINS_JSON_URL = "pins.json"; // in same folder as this file
+  // Each pin.url in pins.json should point to "photos/filename.jpg"
+
+  const map = L.map("map", { zoomControl:true, maxZoom:22 }).setView([37.781, -122.438], 15);
+
+  const baseLight = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    { attribution: '&copy; OpenStreetMap contributors &copy; CARTO', maxZoom:22, maxNativeZoom:19 }
+  ).addTo(map);
+
+  const sat = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    { attribution:"Tiles &copy; Esri", maxZoom:22, maxNativeZoom:19 }
+  );
+
+  L.control.layers({ "Map": baseLight, "Satellite": sat }, {}, { collapsed:true }).addTo(map);
+
+  const statusPill = document.getElementById("statusPill");
+  const reloadBtn = document.getElementById("reloadBtn");
+
+  function escapeHtml(s){
+    return String(s || "").replace(/[&<>"']/g, (c) => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  function buildPopup(pin){
+    const title = escapeHtml(pin.title || pin.fileName || "Photo");
+    const url = pin.url ? String(pin.url) : "";
+    const safeUrl = escapeHtml(url);
+
+    const imgTag = url ? `<img class="popup-img" src="${safeUrl}" alt="${title}" />` : "";
+    const actions = url ? `
+      <div class="popup-actions">
+        <a href="${safeUrl}" target="_blank" rel="noopener">Open image</a>
+      </div>
+    ` : "";
+
+    return `
+      <div class="popup-title">${title}</div>
+      ${imgTag}
+      ${actions}
+    `;
+  }
+
+  let markers = [];
+
+  function clearMarkers(){
+    for (const m of markers) { try { map.removeLayer(m); } catch {} }
+    markers = [];
+  }
+
+  async function loadPins(){
+    statusPill.textContent = "Loading…";
+    clearMarkers();
+
+    try{
+      const res = await fetch(PINS_JSON_URL, { cache:"no-store" });
+      if (!res.ok) throw new Error("pins.json not found");
+      const pins = await res.json();
+      if (!Array.isArray(pins)) throw new Error("pins.json invalid");
+
+      const usable = pins.filter(p => p && typeof p.lat === "number" && typeof p.lng === "number" && p.url);
+
+      for (const p of usable){
+        const m = L.marker([p.lat, p.lng]).addTo(map).bindPopup(buildPopup(p));
+        markers.push(m);
+      }
+
+      statusPill.textContent = `${usable.length} pin(s)`;
+
+      if (usable.length){
+        const group = L.featureGroup(markers);
+        map.fitBounds(group.getBounds().pad(0.2));
+      }
+    }catch(e){
+      statusPill.textContent = "No pins yet";
+      console.warn(e);
+    }
+  }
+
+  reloadBtn.addEventListener("click", loadPins);
+  loadPins();
+</script>
+</body>
+</html>
 
