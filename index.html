@@ -7,18 +7,18 @@
   <title>Project Site</title>
   <meta name="description" content="Project info + optional community feedback survey." />
   <style>
-    :root { --bg:#0b0f14; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#60a5fa; --border:#1f2937; }
+    :root{   --bg:#0F1412;   --card:rgba(20,26,22,.72);   --text:#F1F3EF;   --muted:#C7CEC8;   --accent:#4F6F4D;   --accent-soft:#7FA97A;   --accent-strong:#2F4A34;   --border:rgba(255,255,255,.14);   --warm:#E6E1D6;   --alert:#C6453A; }
     *{ box-sizing:border-box; }
     body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
   color:var(--text);
 
-  background-image: url("1335_Webster-view2.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background:
+    linear-gradient(rgba(10,14,11,.55), rgba(10,14,11,.75)),
+    url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
 }
+
 body::before{
   content:"";
   position:fixed;
@@ -44,12 +44,14 @@ body::before{
     @media (max-width: 860px){ .grid{ grid-template-columns: 1fr; } }
 
     .card{
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(15,18,24,.78);
-  backdrop-filter: blur(6px);
-  border-radius:18px;
+  border:1px solid var(--border);
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  border-radius:16px;
   padding:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
 }
+
 
     .card h3{ margin:0 0 10px; font-size:16px; }
     .card p, .card li{ color:var(--muted); line-height:1.5; font-size:14px; }
@@ -65,7 +67,7 @@ body::before{
       cursor: pointer;
       font-size: 14px;
     }
-    button.primary{ background: rgba(96,165,250,.18); border-color: rgba(96,165,250,.35); }
+    button.primary{   background: var(--accent);   border-color: var(--accent-strong);   color:white; }  button.primary:hover{   background: var(--accent-soft); }  button{   border:1px solid var(--border);   background: rgba(255,255,255,.06);   color: var(--text); }
     button:hover{ filter:brightness(1.06); }
 
     /* Modal */
