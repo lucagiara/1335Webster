@@ -13,20 +13,34 @@
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
   color:var(--text);
-
-  background:
-    url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
+  background: url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
 }
-
-
-
-
     a{ color:var(--accent); text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
     .wrap{ max-width: 980px; margin: 0 auto; padding: 48px 20px; }
-    header{   display:flex;   justify-content:space-between;   align-items:flex-start;   gap:16px;   margin-bottom: 72px; }
-    .brand{ display:flex; flex-direction:column; gap:4px; }
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  margin-bottom:72px;
+
+  border: 1px solid var(--border);
+  background: rgba(20,26,22,.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.22);
+}
+
+.brand{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
     .brand h1{   font-size: clamp(36px, 4.8vw, 64px);   font-weight: 600;   letter-spacing: .02em;   margin:0;   color: var(--warm);   text-shadow: 0 4px 24px rgba(0,0,0,.25); }
     .brand p{   margin-top:6px;   font-size:14px;   letter-spacing:.06em;   text-transform:uppercase;   color: rgba(255,255,255,.78); }
 
@@ -126,7 +140,7 @@
   <div class="wrap">
     <header>
       <div class="brand">
-        <h1>1335 Wester</h1>
+        <h1>1335 Webster</h1>
         <p>Community engagement + project updates</p>
       </div>
       <div class="btnrow">
