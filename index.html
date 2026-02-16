@@ -176,7 +176,7 @@
 
   <div style="width:100%; height:72vh; border:1px solid var(--border); border-radius:14px; overflow:hidden;">
     <iframe
-      src="https://docs.google.com/forms/d/e/XXXXX/viewform?embedded=true"
+      src="https://docs.google.com/forms/d/e/1FAIpQLSfDbYJcqU38dDbhdbdarW65MRdou9RYXO8w2WjMOJ9JblwBcQ/viewform?embedded=true"
       style="width:100%; height:100%; border:0;"
       loading="lazy"
       referrerpolicy="no-referrer"
@@ -186,100 +186,36 @@
     </div>
   </div>
 
-  <script>
-    const MODAL_SEEN_KEY = "projectSite_modalSeen_v1";
-    const overlay = document.getElementById("modalOverlay");
-    const openSurveyBtn = document.getElementById("openSurveyBtn");
-    const closeModalBtn = document.getElementById("closeModalBtn");
-    const skipBtn = document.getElementById("skipBtn");
 
 
-    function markSeen(){
-      try { localStorage.setItem(MODAL_SEEN_KEY, String(Date.now())); } catch {}
-    }
+<script>
+  const overlay = document.getElementById("modalOverlay");
+  const openSurveyBtn = document.getElementById("openSurveyBtn");
+  const closeModalBtn = document.getElementById("closeModalBtn");
 
-    function hasSeen(){
-      try { return Boolean(localStorage.getItem(MODAL_SEEN_KEY)); } catch { return false; }
-    }
+  function openSurvey(){
+    overlay.style.display = "flex";
+  }
 
-    function openSurvey(){
-      overlay.style.display = "flex";
-      toast.style.display = "none";
-      emailError.style.display = "none";
-      // focus email for accessibility
-      setTimeout(() => emailEl.focus(), 50);
-    }
+  function closeSurvey(){
+    overlay.style.display = "none";
+  }
 
-function closeSurvey(){
-  overlay.style.display = "none";
-  // markSeen(); // disabled for testing
-}
+  // Always open on refresh (testing)
+  window.addEventListener("load", () => {
+    openSurvey();
+  });
 
-window.addEventListener("load", () => {
-  openSurvey();
-});
+  openSurveyBtn?.addEventListener("click", openSurvey);
+  closeModalBtn?.addEventListener("click", closeSurvey);
 
-    openSurveyBtn.addEventListener("click", openSurvey);
-    closeModalBtn.addEventListener("click", closeSurvey);
-    skipBtn.addEventListener("click", closeSurvey);
+  // Close if click outside modal
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeSurvey();
+  });
 
-    // Close if click outside modal
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) closeSurvey();
-    });
-
-    // ESC closes
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && overlay.style.display === "flex") closeSurvey();
-    });
-
-    // Submit logic: email required only on submit
-
-
-      const email = emailEl.value.trim();
-      if (!isValidEmail(email)) {
-        emailError.style.display = "block";
-        emailEl.focus();
-        return;
-      }
-      emailError.style.display = "none";
-
-      const payload = {
-        email,
-        firstName: document.getElementById("firstName").value.trim(),
-        lastName: document.getElementById("lastName").value.trim(),
-        topic: document.getElementById("topic").value,
-        wish: document.getElementById("wish").value.trim(),
-        notes: document.getElementById("notes").value.trim(),
-        submittedAt: new Date().toISOString(),
-      };
-
-// SEND TO GOOGLE FORM (silent submit)
-const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfDbYJcqU38dDbhdbdarW65MRdou9RYXO8w2WjMOJ9JblwBcQ/formResponse";
-
-const formData = new FormData();
-formData.append("entry.1911743767", payload.email);         // Email Address
-formData.append("entry.1739362744", payload.firstName);     // First name
-formData.append("entry.757392102", payload.lastName);       // Last name
-formData.append("entry.239320232", payload.topic);          // Topic
-
-// Map your “wish/notes” into the form’s free-text field:
-formData.append("entry.1163946689", payload.wish || payload.notes);
-
-// Newsletter opt-in (always YES for submit; we can make a checkbox later)
-formData.append("entry.1529563708", "YES");
-
-// OPTIONAL (you have this question in the Google Form but not on the modal yet)
-// formData.append("entry.188616829", payload.role);
-
-fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
-
-      toast.style.display = "block";
-      markSeen();
-
-      // Optional: close after a moment
-      setTimeout(() => closeSurvey(), 900);
-    });
-  </script>
-</body>
-</html>
+  // ESC closes
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.style.display === "flex") closeSurvey();
+  });
+</script>
