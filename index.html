@@ -169,56 +169,20 @@
         <button class="x" id="closeModalBtn" aria-label="Close">✕</button>
       </div>
 
-      <form id="surveyForm">
-        <label>
-          Email (required to submit)
-          <input id="email" type="email" placeholder="name@email.com" inputmode="email" autocomplete="email" />
-          <div class="hint">You can leave this blank if you just want to browse.</div>
-          <div class="error" id="emailError">Please enter a valid email to submit.</div>
-        </label>
+<div style="margin-top:14px;">
+  <div class="hint" style="margin-bottom:10px;">
+    You can close this anytime to continue without submitting.
+  </div>
 
-        <div class="row">
-          <label>
-            First name (optional)
-            <input id="firstName" type="text" placeholder="First name" autocomplete="given-name" />
-          </label>
-          <label>
-            Last name (optional)
-            <input id="lastName" type="text" placeholder="Last name" autocomplete="family-name" />
-          </label>
-        </div>
-
-        <label>
-          Which topic matters most to you right now? (optional)
-          <select id="topic">
-            <option value="">Select one</option>
-            <option>Housing</option>
-            <option>Local businesses</option>
-            <option>Safety & mobility</option>
-            <option>Parks & public space</option>
-            <option>Other</option>
-          </select>
-        </label>
-
-        <label>
-          A word or two about what you’d like to see (optional)
-          <input id="wish" type="text" placeholder="Example: family housing, safer crossings, more trees" />
-        </label>
-
-        <label>
-          Anything else you want to share? (optional)
-          <textarea id="notes" placeholder="Write here…"></textarea>
-        </label>
-
-        <div class="modalActions">
-          <div class="leftActions">
-            <button type="button" id="skipBtn">Skip for now</button>
-          </div>
-          <button class="primary" type="submit">Submit feedback</button>
-        </div>
-
-<div class="toast" id="toast">Thanks — your feedback was submitted.</div>
-      </form>
+  <div style="width:100%; height:72vh; border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+    <iframe
+      src="https://docs.google.com/forms/d/e/XXXXX/viewform?embedded=true"
+      style="width:100%; height:100%; border:0;"
+      loading="lazy"
+      referrerpolicy="no-referrer"
+    >Loading…</iframe>
+  </div>
+</div>
     </div>
   </div>
 
@@ -228,16 +192,7 @@
     const openSurveyBtn = document.getElementById("openSurveyBtn");
     const closeModalBtn = document.getElementById("closeModalBtn");
     const skipBtn = document.getElementById("skipBtn");
-    const form = document.getElementById("surveyForm");
 
-    const emailEl = document.getElementById("email");
-    const emailError = document.getElementById("emailError");
-    const toast = document.getElementById("toast");
-
-    function isValidEmail(value){
-      // pragmatic email check (good enough for front-end validation)
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
-    }
 
     function markSeen(){
       try { localStorage.setItem(MODAL_SEEN_KEY, String(Date.now())); } catch {}
@@ -280,8 +235,7 @@
     });
 
     // Submit logic: email required only on submit
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+
 
       const email = emailEl.value.trim();
       if (!isValidEmail(email)) {
