@@ -1,161 +1,115 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="robots" content="noindex, nofollow, noarchive">
-<title>1335 Webster</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>1335 Webster</title>
+  <style>
+    :root {
+      --glass: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.2);
+      --text: rgba(255, 255, 255, 0.9);
+      --muted: rgba(255, 255, 255, 0.6);
+    }
+    body {
+      margin: 0;
+      background: #0b0f0d;
+      color: var(--text);
+      font-family: -apple-system, system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .wrap { max-width: 480px; width: 100%; }
+    .stack { display: flex; flex-direction: column; gap: 20px; }
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+    }
+    .linkCard { text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease; }
+    .linkCard:hover { transform: translateY(-4px); }
+    h1, h2 { margin: 0; font-weight: 600; }
+    .cardTitle { font-size: 20px; margin-bottom: 8px; color: #fff; }
+    .cardText { font-size: 15px; line-height: 1.5; color: var(--muted); margin: 0; }
+    
+    /* --- NEW CSS FOR PREVIEW IMAGE --- */
+    .map-preview-container {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 15px;
+    }
+    .preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .3s ease;
+    }
+    .linkCard:hover .preview-img {
+      transform: scale(1.05);
+    }
+    /* --------------------------------- */
 
-<style>
-:root{
-  --card: rgba(125,132,110,.34);
-  --text:#FAFBF7;
-  --muted:rgba(255,255,255,.78);
-  --accent:#5E7E54;
-  --accent-soft:#88A970;
-  --accent-strong:#3E5C3C;
-  --border:rgba(255,255,255,.22);
-  --warm:#F0EFE8;
-}
-
-*{ box-sizing:border-box; }
-
-body{
-  margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  color:var(--text);
-  background:url("1335_Webster-view2.jpg") center/cover fixed no-repeat;
-}
-
-.wrap{ max-width:980px; margin:0 auto; padding:48px 20px; }
-.stack{ max-width:920px; margin:0 auto; display:grid; gap:16px; }
-
-/* Shared glass style */
-.glass{
-  border:1px solid rgba(255,255,255,.35);
-  background:rgba(255,255,255,.18);
-  backdrop-filter:blur(14px) saturate(140%);
-  -webkit-backdrop-filter:blur(14px) saturate(140%);
-  border-radius:18px;
-  padding:18px;
-  box-shadow:0 12px 40px rgba(0,0,0,.18);
-}
-
-/* Header */
-header{ display:flex; justify-content:flex-start; }
-.brand h1{
-  font-size: clamp(44px, 6vw, 92px);
-  margin:0;
-  color:var(--warm);
-  text-shadow:0 4px 24px rgba(0,0,0,.25);
-}
-
-/* Clickable cards */
-.linkCard{ display:block; color:inherit; text-decoration:none; }
-.linkCard .glass{ transition: background .25s ease, border .25s ease, transform .18s ease; }
-
-/* Hover = stronger green glass */
-.linkCard:hover .glass{
-  background:rgba(94,126,84,.45);
-  border:1px solid rgba(255,255,255,.55);
-  transform: translateY(-1px);
-}
-
-/* Section titles */
-.cardTitle{
-  margin:0 0 8px;
-  font-size:28px;
-  color:var(--warm);
-}
-.cardText{
-  margin:0;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.5;
-}
-
-.updates h2{ margin:0 0 14px; font-size:28px; color:var(--warm); }
-.eventTitle{
-  margin:0 0 12px;
-  font-size:18px;
-  font-weight:600;
-  color:rgba(255,255,255,.95);
-}
-.eventMeta{
-  padding-left:16px;
-  border-left:2px solid rgba(255,255,255,.22);
-  display:grid;
-  gap:8px;
-}
-.metaRow{
-  display:flex;
-  gap:10px;
-  font-size:14px;
-  color:var(--muted);
-}
-.metaLabel{
-  min-width:64px;
-  font-weight:600;
-  color:rgba(255,255,255,.85);
-}
-
-footer{ color:var(--muted); font-size:12px; }
-</style>
+    .updates h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px; }
+    .eventTitle { font-size: 18px; margin-bottom: 12px; color: #fff; }
+    .metaRow { display: flex; font-size: 14px; margin-bottom: 8px; gap: 12px; }
+    .metaLabel { width: 60px; color: var(--muted); flex-shrink: 0; }
+    footer { color: var(--muted); font-size: 12px; margin-top: 20px; text-align: center; }
+  </style>
 </head>
-
 <body>
-<div class="wrap">
-  <div class="stack">
-
-    <header class="glass">
-      <div class="brand">
+  <div class="wrap">
+    <div class="stack">
+      
+      <header class="glass">
         <h1>1335 Webster</h1>
-      </div>
-    </header>
+      </header>
 
-    <!-- Take the survey (NOW uses your real link) -->
-    <a class="linkCard" href="https://docs.google.com/forms/d/e/1FAIpQLSfDbYJcqU38dDbhdbdarW65MRdou9RYXO8w2WjMOJ9JblwBcQ/viewform?usp=sharing&amp;ouid=116835632892877175174" target="_blank" rel="noopener noreferrer">
-      <section class="glass">
-        <h2 class="cardTitle">Take the survey</h2>
-        <p class="cardText">Please share feedback through a short survey. It takes 1–2 minutes and helps inform the project direction.</p>
+      <a class="linkCard" href="https://docs.google.com/forms/d/e/1FAIpQLSfDbYJcqU38dDbhdbdarW65MRdou9RYXO8w2WjMOJ9JblwBcQ/viewform" target="_blank">
+        <section class="glass">
+          <h2 class="cardTitle">Take the survey</h2>
+          <p class="cardText">Please share feedback through a short survey. It takes 1–2 minutes and helps inform the project direction.</p>
+        </section>
+      </a>
+
+      <section class="glass updates">
+        <h2>Project Updates</h2>
+        <div class="eventTitle">Community Visioning Session #1</div>
+        <div class="eventMeta">
+          <div class="metaRow"><div class="metaLabel">Date</div><div>February 19, 2026</div></div>
+          <div class="metaRow"><div class="metaLabel">Time</div><div>5:00pm to 7:00pm</div></div>
+          <div class="metaRow"><div class="metaLabel">Address</div><div>Third Baptist Church, 1399 McAllister St</div></div>
+        </div>
       </section>
-    </a>
 
-    <!-- Project updates -->
-    <section class="glass updates">
-      <h2>Project Updates</h2>
+      <a class="linkCard" href="site-survey-map.html">
+        <section class="glass">
+          <h2 class="cardTitle">Site Photo Survey</h2>
+          <p class="cardText">Explore photos of the site on an interactive map.</p>
+        </section>
+      </a>
 
-      <div class="eventTitle">Community Visioning Session #1</div>
+      <a class="linkCard" href="site-survey-map.html" target="_blank">
+        <section class="glass">
+          <h2 class="cardTitle">Map Explorer</h2>
+          <p class="cardText">Click the preview below to launch the interactive survey map in a new tab.</p>
+          <div class="map-preview-container">
+            <img src="MAP_Preview.jpeg" alt="Map Preview" class="preview-img">
+          </div>
+        </section>
+      </a>
 
-      <div class="eventMeta">
-        <div class="metaRow">
-          <div class="metaLabel">Date</div>
-          <div>February 19, 2026</div>
-        </div>
-        <div class="metaRow">
-          <div class="metaLabel">Time</div>
-          <div>5:00pm to 7:00pm</div>
-        </div>
-        <div class="metaRow">
-          <div class="metaLabel">Address</div>
-          <div>Third Baptist Church of San Francisco, 1399 McAllister St, San Francisco CA 94115</div>
-        </div>
-      </div>
-    </section>
+      <footer>
+        <div>Privacy note: Feedback is used solely for project development.</div>
+      </footer>
 
-    <!-- NEW: Site Photo Survey Map (links to a new file) -->
-    <a class="linkCard" href="site-survey-map.html">
-      <section class="glass">
-        <h2 class="cardTitle">Site Photo Survey</h2>
-        <p class="cardText">Explore photos of the site on an interactive map.</p>
-      </section>
-    </a>
-
-    <footer>
-      <div>Privacy note: keep this short and clear (we’ll write it together).</div>
-    </footer>
-
+    </div>
   </div>
-</div>
 </body>
 </html>
